@@ -7,114 +7,175 @@
     <style>
       :root {
         color-scheme: light;
+        --bg: oklch(0.95 0.015 240);
+        --panel: color-mix(in oklab, white 84%, #d9e7f4 16%);
+        --panel-strong: color-mix(in oklab, white 74%, #d7e4f2 26%);
+        --line: color-mix(in oklab, #aac1d7 56%, white 44%);
+        --text: oklch(0.24 0.03 252);
+        --muted: oklch(0.47 0.03 244);
+        --accent: oklch(0.56 0.16 251);
+        --accent-soft: color-mix(in oklab, white 72%, #5f87be 28%);
         font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-        background: #eef3f8;
-        color: #142033;
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
         margin: 0;
         min-height: 100vh;
-        display: grid;
-        grid-template-columns: 360px 1fr;
-      }
-
-      aside {
-        box-sizing: border-box;
-        padding: 20px;
-        background: linear-gradient(180deg, #f8fbff 0%, #edf4fb 100%);
-        border-right: 1px solid #d9e5f0;
-        overflow: auto;
-      }
-
-      main {
-        position: relative;
-        min-width: 0;
-        min-height: 100vh;
+        color: var(--text);
         background:
-          radial-gradient(circle at top left, rgba(140, 192, 255, 0.2), transparent 36%),
-          linear-gradient(180deg, #f9fbfd 0%, #dfe9f4 100%);
+          radial-gradient(circle at 18% 12%, rgba(171, 197, 227, 0.28), transparent 28%),
+          radial-gradient(circle at 84% 16%, rgba(220, 228, 239, 0.75), transparent 30%),
+          linear-gradient(135deg, #edf4fb 0%, #f7fafc 48%, #e7eef6 100%);
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 320px minmax(0, 1fr);
+      }
+
+      .control {
+        padding: 24px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        border-right: 1px solid rgba(163, 184, 204, 0.45);
+        background: linear-gradient(180deg, rgba(251, 253, 255, 0.94), rgba(239, 245, 251, 0.92));
+        backdrop-filter: blur(10px);
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
       }
 
       h1 {
-        margin: 0 0 12px;
-        font-size: 22px;
+        margin: 4px 0 0;
+        font-size: clamp(28px, 4vw, 34px);
+        line-height: 1;
       }
 
-      p,
-      li,
-      label,
-      button,
-      input,
-      textarea,
-      select {
+      .lead {
+        margin: 0;
+        color: var(--muted);
         font-size: 14px;
-        line-height: 1.5;
       }
 
-      .section {
-        margin-top: 20px;
+      .panel {
+        padding: 16px;
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(241, 247, 252, 0.92));
+        border: 1px solid rgba(180, 198, 216, 0.7);
+        box-shadow: 0 14px 34px rgba(108, 133, 161, 0.12);
+      }
+
+      .model-card {
+        display: grid;
+        gap: 6px;
+      }
+
+      .model-name {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .model-path {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+        word-break: break-all;
       }
 
       .field {
         display: grid;
         gap: 6px;
-        margin-top: 12px;
       }
 
-      input,
-      textarea,
+      .field + .field {
+        margin-top: 14px;
+      }
+
+      label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      select,
       button {
+        width: 100%;
+        border: 0;
+        border-radius: 14px;
         font: inherit;
       }
 
-      input,
-      textarea {
-        width: 100%;
-        box-sizing: border-box;
-        border: 1px solid #bdd0e2;
-        border-radius: 10px;
-        padding: 10px 12px;
-        background: rgba(255, 255, 255, 0.9);
+      select {
+        appearance: none;
+        padding: 12px 14px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 245, 250, 0.96));
+        border: 1px solid var(--line);
+        color: var(--text);
       }
 
-      textarea {
-        min-height: 120px;
-        resize: vertical;
+      .button-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
       }
 
       button {
-        border: 0;
-        border-radius: 999px;
-        padding: 10px 14px;
-        background: #0f6cbd;
-        color: white;
+        padding: 12px 14px;
         cursor: pointer;
+        transition: transform 160ms ease, opacity 160ms ease, background 160ms ease;
       }
 
-      button.secondary {
-        background: #dbe8f4;
-        color: #153250;
+      button:hover {
+        transform: translateY(-1px);
       }
 
-      .actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-top: 12px;
+      button.primary {
+        background: linear-gradient(135deg, #184f97, #2f71bf);
+        color: white;
+        box-shadow: 0 12px 28px rgba(31, 89, 160, 0.28);
       }
 
-      .hint {
-        color: #50647a;
+      button.ghost {
+        background: var(--accent-soft);
+        color: #16365b;
+      }
+
+      button:disabled,
+      select:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
       }
 
       .status {
-        margin-top: 12px;
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.78);
-        border: 1px solid #d2e0ec;
+        min-height: 88px;
+        margin: 0;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: var(--panel-strong);
+        border: 1px solid rgba(175, 194, 214, 0.74);
+        color: #294666;
         white-space: pre-wrap;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .viewer-wrap {
+        position: relative;
+        min-width: 0;
+        min-height: 100vh;
       }
 
       .viewer {
@@ -122,90 +183,80 @@
         inset: 0;
       }
 
-      .panel-block {
-        padding: 12px;
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(190, 208, 224, 0.9);
+      .viewer-badge {
+        position: absolute;
+        right: 24px;
+        bottom: 22px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(248, 251, 255, 0.72);
+        border: 1px solid rgba(180, 198, 216, 0.66);
+        color: var(--muted);
+        backdrop-filter: blur(8px);
+        font-size: 12px;
       }
 
-      @media (max-width: 900px) {
-        body {
+      @media (max-width: 960px) {
+        .shell {
           grid-template-columns: 1fr;
           grid-template-rows: auto 1fr;
         }
 
-        aside {
+        .control {
           border-right: 0;
-          border-bottom: 1px solid #d9e5f0;
+          border-bottom: 1px solid rgba(163, 184, 204, 0.45);
         }
 
-        main {
-          min-height: 60vh;
+        .viewer-wrap {
+          min-height: 68vh;
         }
       }
     </style>
   </head>
   <body>
-    <aside>
-      <h1>composite-model</h1>
-      <p class="hint">
-        这个页面用于测试 JSONL 聚合模型在浏览器中的真实加载。
-      </p>
+    <div class="shell">
+      <aside class="control">
+        <div>
+          <p class="eyebrow">Composite Model Example</p>
+          <h1>调教祥子</h1>
+          <p class="lead">固定示例模型，动作和表情通过下拉框直接切换。</p>
+        </div>
 
-      <div class="section panel-block">
-        <strong>前置条件</strong>
-        <ul>
-          <li>将 Cubism2 SDK 放到 <code>examples/basic/public/lib</code></li>
-          <li>至少准备一个可通过 HTTP 访问的 <code>.jsonl</code> 文件</li>
-          <li>JSONL 中引用的子模型路径也必须能被同一站点访问</li>
-        </ul>
-      </div>
+        <section class="panel model-card">
+          <div class="model-name">JSONL 聚合模型</div>
+          <p class="model-path">/models/调教祥子/model.jsonl</p>
+        </section>
 
-      <div class="section">
-        <div class="field">
-          <label for="jsonl-url">JSONL URL</label>
-          <input id="jsonl-url" value="/assets/demo/composite.model.jsonl" />
-        </div>
-        <div class="field">
-          <label for="motion-name">Initial Motion</label>
-          <input id="motion-name" value="" placeholder="例如 idle" />
-        </div>
-        <div class="field">
-          <label for="expression-name">Initial Expression</label>
-          <input id="expression-name" value="" placeholder="例如 smile" />
-        </div>
-        <div class="actions">
-          <button id="load-url">Load URL</button>
-          <button id="destroy" class="secondary">Destroy</button>
-        </div>
-      </div>
+        <section class="panel">
+          <div class="field">
+            <label for="motion-select">动作</label>
+            <select id="motion-select" disabled>
+              <option>加载中...</option>
+            </select>
+          </div>
 
-      <div class="section">
-        <div class="field">
-          <label for="jsonl-text">JSONL Text</label>
-          <textarea id="jsonl-text" spellcheck="false"></textarea>
-        </div>
-        <div class="actions">
-          <button id="load-text">Load Text</button>
-          <button id="normalize" class="secondary">Parse + Optimize</button>
-        </div>
-      </div>
+          <div class="field">
+            <label for="expression-select">表情</label>
+            <select id="expression-select" disabled>
+              <option>加载中...</option>
+            </select>
+          </div>
+        </section>
 
-      <div class="section panel-block">
-        <strong>说明</strong>
-        <p class="hint">
-          运行时依赖 Cubism2。示例会先加载 <code>live2d.min.js</code> 和
-          <code>live2dcubismcore.min.js</code>，再动态导入本包和
-          <code>pixi-live2d-display-webgal</code>。
-        </p>
-      </div>
+        <div class="button-row">
+          <button id="reload" class="primary">重载模型</button>
+          <button id="reset" class="ghost">恢复默认</button>
+        </div>
 
-      <pre id="status" class="status">等待加载</pre>
-    </aside>
-    <main>
-      <div id="viewer" class="viewer"></div>
-    </main>
+        <pre id="status" class="status">准备加载...</pre>
+      </aside>
+
+      <main class="viewer-wrap">
+        <div id="viewer" class="viewer"></div>
+        <div class="viewer-badge">Cubism2 + pixi-live2d-display-webgal</div>
+      </main>
+    </div>
+
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
