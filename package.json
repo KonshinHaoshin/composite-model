@@ -20,7 +20,9 @@
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "example:dev": "vite --config examples/basic/vite.config.ts",
+    "example:build": "vite build --config examples/basic/vite.config.ts"
   },
   "keywords": [
     "jsonl",
@@ -40,6 +42,7 @@
     "pixi.js": "^6.5.10",
     "tsup": "^8.3.5",
     "typescript": "^5.8.3",
+    "vite": "^7.1.11",
     "vitest": "^2.1.8"
   }
 }

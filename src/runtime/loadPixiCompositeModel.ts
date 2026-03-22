@@ -1,5 +1,4 @@
-import * as PIXI from "pixi.js";
-import * as Live2D from "pixi-live2d-display-webgal";
+import type * as PIXI from "pixi.js";
 
 import { optimizeCompositeModel } from "../core/optimize";
 import { parseCompositeModel } from "../core/parse";
@@ -78,8 +77,25 @@ export interface LoadedPixiCompositeModel {
   destroy: () => void;
 }
 
-const getModelCtor = () =>
-  (Live2D as unknown as { Live2DModel?: CompositeLive2DModelStatic }).Live2DModel;
+const loadRuntimeModules = async () => {
+  const [PIXI, Live2D] = await Promise.all([
+    import("pixi.js"),
+    import("pixi-live2d-display-webgal"),
+  ]);
+
+  const maybeModelCtor = (Live2D as unknown as {
+    Live2DModel?: CompositeLive2DModelStatic & {
+      registerTicker?: (tickerClass: unknown) => void;
+    };
+  }).Live2DModel;
+
+  maybeModelCtor?.registerTicker?.((PIXI as unknown as { Ticker?: unknown }).Ticker);
+
+  return {
+    PIXI,
+    modelCtor: maybeModelCtor,
+  };
+};
 
 const makeOverwriteBounds = (bounds: OverrideBoundsTuple | undefined) => {
   if (!bounds) {
@@ -142,7 +158,7 @@ const setImportValue = (model: CompositeLive2DModel, value: number | undefined) 
 export async function loadPixiCompositeModel(
   options: LoadPixiCompositeModelOptions,
 ): Promise<LoadedPixiCompositeModel> {
-  const modelCtor = getModelCtor();
+  const { PIXI, modelCtor } = await loadRuntimeModules();
   if (!modelCtor) {
     throw new Error("pixi-live2d-display-webgal does not expose Live2DModel.");
   }

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>composite-model example</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        background: #eef3f8;
+        color: #142033;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 360px 1fr;
+      }
+
+      aside {
+        box-sizing: border-box;
+        padding: 20px;
+        background: linear-gradient(180deg, #f8fbff 0%, #edf4fb 100%);
+        border-right: 1px solid #d9e5f0;
+        overflow: auto;
+      }
+
+      main {
+        position: relative;
+        min-width: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(140, 192, 255, 0.2), transparent 36%),
+          linear-gradient(180deg, #f9fbfd 0%, #dfe9f4 100%);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 22px;
+      }
+
+      p,
+      li,
+      label,
+      button,
+      input,
+      textarea,
+      select {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .section {
+        margin-top: 20px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      input,
+      textarea,
+      button {
+        font: inherit;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #bdd0e2;
+        border-radius: 10px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: #0f6cbd;
+        color: white;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: #dbe8f4;
+        color: #153250;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .hint {
+        color: #50647a;
+      }
+
+      .status {
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid #d2e0ec;
+        white-space: pre-wrap;
+      }
+
+      .viewer {
+        position: absolute;
+        inset: 0;
+      }
+
+      .panel-block {
+        padding: 12px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(190, 208, 224, 0.9);
+      }
+
+      @media (max-width: 900px) {
+        body {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto 1fr;
+        }
+
+        aside {
+          border-right: 0;
+          border-bottom: 1px solid #d9e5f0;
+        }
+
+        main {
+          min-height: 60vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside>
+      <h1>composite-model</h1>
+      <p class="hint">
+        这个页面用于测试 JSONL 聚合模型在浏览器中的真实加载。
+      </p>
+
+      <div class="section panel-block">
+        <strong>前置条件</strong>
+        <ul>
+          <li>将 Cubism2 SDK 放到 <code>examples/basic/public/lib</code></li>
+          <li>至少准备一个可通过 HTTP 访问的 <code>.jsonl</code> 文件</li>
+          <li>JSONL 中引用的子模型路径也必须能被同一站点访问</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="field">
+          <label for="jsonl-url">JSONL URL</label>
+          <input id="jsonl-url" value="/assets/demo/composite.model.jsonl" />
+        </div>
+        <div class="field">
+          <label for="motion-name">Initial Motion</label>
+          <input id="motion-name" value="" placeholder="例如 idle" />
+        </div>
+        <div class="field">
+          <label for="expression-name">Initial Expression</label>
+          <input id="expression-name" value="" placeholder="例如 smile" />
+        </div>
+        <div class="actions">
+          <button id="load-url">Load URL</button>
+          <button id="destroy" class="secondary">Destroy</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="field">
+          <label for="jsonl-text">JSONL Text</label>
+          <textarea id="jsonl-text" spellcheck="false"></textarea>
+        </div>
+        <div class="actions">
+          <button id="load-text">Load Text</button>
+          <button id="normalize" class="secondary">Parse + Optimize</button>
+        </div>
+      </div>
+
+      <div class="section panel-block">
+        <strong>说明</strong>
+        <p class="hint">
+          运行时依赖 Cubism2。示例会先加载 <code>live2d.min.js</code> 和
+          <code>live2dcubismcore.min.js</code>，再动态导入本包和
+          <code>pixi-live2d-display-webgal</code>。
+        </p>
+      </div>
+
+      <pre id="status" class="status">等待加载</pre>
+    </aside>
+    <main>
+      <div id="viewer" class="viewer"></div>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
