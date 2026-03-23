@@ -14,6 +14,13 @@ const sampleJsonl = [
   '{"motions":["idle","idle","wink"],"expressions":["smile","smile"],"import":"3"}',
 ].join("\n");
 
+const mediaJsonl = [
+  '{"path":"./parts/base/model.json","id":"base"}',
+  '{"path":"./layers/shine.gif","type":"gif","id":"shine","loop":true,"autoplay":false}',
+  '{"path":"./layers/cut.webm","type":"video","id":"cut","muted":true,"playsinline":true}',
+  '{"version":"2","motions":["idle","idle"],"expressions":["smile","smile"],"import":"5"}',
+].join("\n");
+
 describe("parseCompositeModel", () => {
   it("parses parts, summary, and diagnostics", () => {
     const manifest = parseCompositeModel({
@@ -68,6 +75,54 @@ describe("optimizeCompositeModel", () => {
 
     const reparsed = parseCompositeModel(optimized.text);
     expect(stringifyCompositeModel(reparsed)).toBe(optimized.text);
+  });
+
+  it("preserves media parts and upgrades extended schema to version 2", () => {
+    const optimized = optimizeCompositeModel(parseCompositeModel(mediaJsonl));
+
+    expect(optimized.summary).toMatchObject({
+      version: 2,
+      motions: ["idle"],
+      expressions: ["smile"],
+      import: 5,
+    });
+    expect(optimized.parts[1]).toMatchObject({
+      path: "./layers/shine.gif",
+      type: "gif",
+      loop: true,
+      autoplay: false,
+      index: 1,
+    });
+    expect(optimized.parts[2]).toMatchObject({
+      path: "./layers/cut.webm",
+      type: "video",
+      muted: true,
+      playsinline: true,
+      index: 2,
+    });
+    expect(optimized.text).toBe(
+      [
+        '{"path":"./parts/base/model.json","id":"base","index":0}',
+        '{"path":"./layers/shine.gif","type":"gif","id":"shine","index":1,"loop":true,"autoplay":false}',
+        '{"path":"./layers/cut.webm","type":"video","id":"cut","index":2,"muted":true,"playsinline":true}',
+        '{"version":2,"motions":["idle"],"expressions":["smile"],"import":5}',
+      ].join("\n"),
+    );
+  });
+});
+
+describe("parseCompositeModel v2 media parts", () => {
+  it("parses mixed media parts on the same layered line model", () => {
+    const manifest = parseCompositeModel(mediaJsonl);
+
+    expect(manifest.parts).toHaveLength(3);
+    expect(manifest.parts.map((part) => part.type)).toEqual([undefined, "gif", "video"]);
+    expect(manifest.summary).toMatchObject({
+      version: 2,
+      motions: ["idle"],
+      expressions: ["smile"],
+      import: 5,
+    });
   });
 });
 

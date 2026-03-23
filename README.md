@@ -1,6 +1,6 @@
 # composite-model
 
-`composite-model` 是一个面向前端的 `JSONL` 聚合 Live2D 工具包，主要用于把社区里常见的“多部件 `.jsonl` 模型”统一成一套可复用的解析和加载流程。
+`composite-model` 是一个面向前端的 `JSONL` 聚合模型工具包，用来统一解析、优化并加载 `Live2D / 图片 / GIF / WebM` 复合立绘。
 
 它的定位很明确：
 
@@ -8,7 +8,7 @@
 - 不负责分发 Live2D SDK
 - 不直接依赖 Tauri / Node 文件系统
 - 运行时面向浏览器
-- 当前运行时适配层基于 `pixi-live2d-display-webgal`
+- 当前运行时适配层基于 `pixi-live2d-display-webgal` + `Pixi`
 
 这个包适合三类场景：
 
@@ -63,9 +63,17 @@
 
 ## 2. 当前支持的 JSONL 格式
 
-当前版本支持的 part 行字段：
+当前版本同时支持两套写法：
+
+- 兼容旧版 `v1`：只有 `model.json` 子模型 part
+- 扩展新版 `v2`：允许把图片、GIF、WebM 也写成 part 行，和 Live2D 部件一起按行参与图层堆叠
+
+### 2.1 part 行字段
+
+基础字段：
 
 - `path`
+- `type`
 - `id`
 - `folder`
 - `index`
@@ -74,13 +82,31 @@
 - `xscale`
 - `yscale`
 
-当前版本支持的 summary 行字段：
+其中：
 
+- `path` 必填
+- `type` 可选，支持 `live2d`、`image`、`gif`、`video`
+- 不写 `type` 时会按扩展名推断：
+  - `.json` 默认按 `live2d`
+  - `.png/.jpg/.jpeg/.webp/.avif/.bmp` 按 `image`
+  - `.gif` 按 `gif`
+  - `.webm/.mp4/.ogv` 按 `video`
+
+媒体 part 还支持这些可选字段：
+
+- `loop`
+- `muted`
+- `autoplay`
+- `playsinline`
+
+### 2.2 summary 行字段
+
+- `version`
 - `motions`
 - `expressions`
 - `import`
 
-一个典型例子：
+### 2.3 旧版 v1 例子
 
 ```jsonl
 {"path":"./body/model.json","id":"body","x":0,"y":0,"xscale":1,"yscale":1}
@@ -88,13 +114,36 @@
 {"motions":["idle","tap"],"expressions":["smile","sad"],"import":1}
 ```
 
+### 2.4 新版 v2 分层例子
+
+这就是“图片和模型一样，一行一个 part，用来参与图层”的格式：
+
+```jsonl
+{"index":0,"id":"sakiko0","path":"1.后发/model.json","folder":"1.后发"}
+{"index":1,"id":"sakiko1","path":"2.衣服/model.json","folder":"2.衣服"}
+{"index":2,"id":"sakiko2","path":"3.脸/model.json","folder":"3.脸"}
+{"index":3,"id":"sakiko3","path":"4.帽子/model.json","folder":"4.帽子"}
+{"index":4,"id":"sakiko4","type":"image","path":"5.前景/特效.png","folder":"5.前景"}
+{"index":5,"id":"sakiko5","type":"gif","path":"6.闪光/shine.gif","folder":"6.闪光","autoplay":true,"loop":true}
+{"index":6,"id":"sakiko6","type":"video","path":"7.雨幕/rain.webm","folder":"7.雨幕","autoplay":true,"loop":true,"muted":true,"playsinline":true}
+{"version":2,"motions":["sakiko/idle01"],"expressions":["sakiko/default"],"import":50}
+```
+
+这类 `v2` JSONL 的含义是：
+
+- 每一行 part 都是一个图层节点
+- `model.json`、图片、GIF、WebM 都能混排
+- 包不会把图片/GIF/视频拆成另一套资源清单
+- 图层顺序保持 part 行原顺序；如果你自己传了 `index`，会原样保留
+
 规则说明：
 
-- 只要一行里出现 `motions` / `expressions` / `import`，就会被视为 summary 行
+- 只要一行里出现 `version` / `motions` / `expressions` / `import`，并且该行没有 `path`，就会被视为 summary 行
 - 只要一行里出现 `path`，就会被视为 part 行
 - 坏行不会让解析直接失败，而是进入 diagnostics
 - `motions` / `expressions` 当前只支持数组，不支持对象型 summary
 - `import` 会被规范为数字；如果不是合法数字，会给出诊断
+- 当 part 使用了 `type` 或媒体控制字段时，`optimizeCompositeModel()` 会把 summary 规范到 `version: 2`
 
 ---
 
@@ -114,11 +163,18 @@ pnpm add composite-model
 pnpm add pixi.js pixi-live2d-display-webgal
 ```
 
+如果你的聚合模型里包含 GIF part，再额外安装：
+
+```bash
+pnpm add @pixi/gif
+```
+
 ### 3.3 依赖关系说明
 
 请注意：
 
 - `pixi.js` 和 `pixi-live2d-display-webgal` 是运行时依赖
+- `@pixi/gif` 只在你使用 GIF part 时需要
 - Live2D SDK 不是 npm 依赖
 - 你需要自己在页面里提供 Cubism2 运行库
 
@@ -138,6 +194,7 @@ pnpm add pixi.js pixi-live2d-display-webgal
 主要类型：
 
 - `CompositePart`
+- `CompositePartType`
 - `CompositeSummary`
 - `CompositeModelManifest`
 - `CompositeDiagnostic`
@@ -288,9 +345,9 @@ const loaded = await loadPixiCompositeModel({
   resolveAssetUrl: async (part, manifest) => {
     return resolveCompositePath(part.path, manifest.source);
   },
-  configureModel: async ({ model, part }) => {
-    model.anchor?.set?.(0.5);
-    model.position.set(part.x ?? 0, part.y ?? 0);
+  configureModel: async ({ displayObject, part }) => {
+    (displayObject as PIXI.Sprite).anchor?.set?.(0.5);
+    displayObject.position.set(part.x ?? 0, part.y ?? 0);
   },
   initialMotion: "idle",
   initialExpression: "smile",
@@ -307,10 +364,14 @@ app.stage.addChild(loaded.container);
 2. 解析为 `manifest`
 3. 遍历所有 `parts`
 4. 调用 `resolveAssetUrl` 得到每个子模型 URL
-5. 调用 `Live2DModel.from(...)` 逐个加载子模型
-6. 批量应用 summary 里的 `import`
-7. 读取首个子模型的 `model.json`，生成动作 / 表情列表
-8. 根据 `initialMotion` / `initialExpression` 进行初始化
+5. 按 `type` 或扩展名选择加载方式：
+   - `live2d` -> `Live2DModel.from(...)`
+   - `image` -> `PIXI.Sprite`
+   - `gif` -> `@pixi/gif`
+   - `video` -> `HTMLVideoElement + PIXI.Texture.from(...)`
+6. 对所有 Live2D 子模型批量应用 summary 里的 `import`
+7. 读取首个 Live2D 子模型的 `model.json`，生成动作 / 表情列表
+8. 根据 `initialMotion` / `initialExpression` 对所有 Live2D 子模型进行初始化
 9. 返回统一的控制对象
 
 ### 6.3 返回对象能做什么
@@ -319,6 +380,7 @@ app.stage.addChild(loaded.container);
 
 - `container`
 - `models`
+- `nodes`
 - `manifest`
 - `selectors`
 - `applyMotion(name)`
@@ -335,6 +397,12 @@ loaded.applyImport(50);
 loaded.destroy();
 ```
 
+补充说明：
+
+- `models` 只包含 Live2D 子模型，主要用于兼容旧调用方
+- `nodes` 包含全部 part，包括 `image/gif/video`
+- `applyMotion` / `applyExpression` / `applyImport` 只会作用于 Live2D 子模型；对图片、GIF、视频只会跳过
+
 ### 6.4 `configureModel` 用来做什么
 
 这个回调用来放“项目自己的舞台逻辑”，例如：
@@ -343,6 +411,13 @@ loaded.destroy();
 - scale 设置
 - 位置偏移
 - 特殊参数初始化
+
+现在这个回调还会额外收到：
+
+- `partType`
+- `displayObject`
+- `live2dModel`
+- `node`
 
 这个包不会强行规定你的定位方案，所以这类行为由调用方决定。
 
@@ -633,7 +708,7 @@ pnpm example:build
 - 规范化
 - 路径解析
 - 动作 / 表情提取
-- Pixi + Live2D 运行时聚合加载
+- Pixi + Live2D / image / gif / video 运行时聚合加载
 
 当前版本没有做的是：
 

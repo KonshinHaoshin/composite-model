@@ -2,6 +2,7 @@ import type {
   CompositeDiagnostic,
   CompositeModelManifest,
   CompositePart,
+  CompositePartType,
   CompositeParsedLine,
   CompositeSummary,
   ParseCompositeModelOptions,
@@ -9,8 +10,23 @@ import type {
 
 type CompositeInput = string | { text: string; source?: string };
 
-const PART_FIELDS = new Set(["path", "id", "folder", "index", "x", "y", "xscale", "yscale"]);
-const SUMMARY_FIELDS = new Set(["motions", "expressions", "import"]);
+const PART_FIELDS = new Set([
+  "path",
+  "type",
+  "id",
+  "folder",
+  "index",
+  "x",
+  "y",
+  "xscale",
+  "yscale",
+  "loop",
+  "muted",
+  "autoplay",
+  "playsinline",
+]);
+const SUMMARY_FIELDS = new Set(["version", "motions", "expressions", "import"]);
+const PART_TYPES = new Set<CompositePartType>(["live2d", "image", "gif", "video"]);
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -28,6 +44,29 @@ const toFiniteNumber = (value: unknown): number | undefined => {
     }
   }
   return undefined;
+};
+
+const toVersionNumber = (value: unknown): number | undefined => {
+  const next = toFiniteNumber(value);
+  if (next === undefined || !Number.isInteger(next) || next < 1) {
+    return undefined;
+  }
+  return next;
+};
+
+const toBoolean = (value: unknown): boolean | undefined => {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  return undefined;
+};
+
+const toPartType = (value: unknown): CompositePartType | undefined => {
+  if (typeof value !== "string" || !value.trim()) {
+    return undefined;
+  }
+  const normalized = value.trim().toLowerCase() as CompositePartType;
+  return PART_TYPES.has(normalized) ? normalized : undefined;
 };
 
 const toStringList = (
@@ -63,12 +102,16 @@ const toStringList = (
 };
 
 const buildSummary = (input: {
+  version?: number;
   motions?: string[];
   expressions?: string[];
   import?: number;
   lineNumber?: number;
 }): CompositeSummary => {
   const summary: CompositeSummary = {};
+  if (input.version !== undefined) {
+    summary.version = input.version;
+  }
   if (input.motions && input.motions.length > 0) {
     summary.motions = input.motions;
   }
@@ -167,7 +210,9 @@ export function parseCompositeModel(
       return;
     }
 
-    const isSummary = "motions" in parsed || "expressions" in parsed || "import" in parsed;
+    const isSummary =
+      !("path" in parsed) &&
+      ("version" in parsed || "motions" in parsed || "expressions" in parsed || "import" in parsed);
 
     if (isSummary) {
       if (seenSummary) {
@@ -184,6 +229,21 @@ export function parseCompositeModel(
       const summaryLine: CompositeSummary = {
         lineNumber,
       };
+      if ("version" in parsed) {
+        const version = toVersionNumber(parsed.version);
+        if (version === undefined && parsed.version !== undefined) {
+          diagnostics.push({
+            code: "invalid-version",
+            message: "Summary version must be a positive integer.",
+            severity: "warning",
+            lineNumber,
+            line: raw,
+            field: "version",
+          });
+        } else if (version !== undefined) {
+          summaryLine.version = version;
+        }
+      }
       const motionList = toStringList(parsed.motions, "motions", diagnostics, lineNumber, raw);
       const expressionList = toStringList(parsed.expressions, "expressions", diagnostics, lineNumber, raw);
       if (motionList && motionList.length > 0) {
@@ -214,11 +274,16 @@ export function parseCompositeModel(
       const mergedMotions = mergeStringLists(summary.motions, summaryLine.motions);
       const mergedExpressions = mergeStringLists(summary.expressions, summaryLine.expressions);
       const nextSummaryInput: {
+        version?: number;
         motions?: string[];
         expressions?: string[];
         import?: number;
         lineNumber: number;
       } = { lineNumber };
+      const mergedVersion = summaryLine.version ?? summary.version;
+      if (mergedVersion !== undefined) {
+        nextSummaryInput.version = mergedVersion;
+      }
       if (mergedMotions && mergedMotions.length > 0) {
         nextSummaryInput.motions = mergedMotions;
       }
@@ -271,6 +336,22 @@ export function parseCompositeModel(
       lineNumber,
     };
 
+    if ("type" in parsed && parsed.type !== undefined) {
+      const partType = toPartType(parsed.type);
+      if (partType === undefined) {
+        diagnostics.push({
+          code: "invalid-part-type",
+          message: "Part type must be one of: live2d, image, gif, video.",
+          severity: "warning",
+          lineNumber,
+          line: raw,
+          field: "type",
+        });
+      } else {
+        part.type = partType;
+      }
+    }
+
     if (typeof parsed.id === "string" && parsed.id.trim()) {
       part.id = parsed.id.trim();
     }
@@ -288,6 +369,26 @@ export function parseCompositeModel(
         diagnostics.push({
           code: "invalid-part-field",
           message: `Part field ${field} must be a finite number.`,
+          severity: "warning",
+          lineNumber,
+          line: raw,
+          field,
+        });
+        continue;
+      }
+      part[field] = next;
+    }
+
+    const booleanFields = ["loop", "muted", "autoplay", "playsinline"] as const;
+    for (const field of booleanFields) {
+      if (!(field in parsed) || parsed[field] === undefined) {
+        continue;
+      }
+      const next = toBoolean(parsed[field]);
+      if (next === undefined) {
+        diagnostics.push({
+          code: "invalid-part-flag",
+          message: `Part field ${field} must be a boolean.`,
           severity: "warning",
           lineNumber,
           line: raw,

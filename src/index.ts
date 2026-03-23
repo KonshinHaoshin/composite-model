@@ -8,6 +8,7 @@ export { loadPixiCompositeModel } from "./runtime/loadPixiCompositeModel";
 export type {
   CompositeDiagnostic,
   CompositeDiagnosticSeverity,
+  CompositePartType,
   CompositeModelManifest,
   CompositeParsedLine,
   CompositePart,
@@ -21,9 +22,12 @@ export type {
 } from "./core/types";
 
 export type {
+  CompositeDisplayObject,
+  CompositeLoadedNode,
   CompositeLive2DModel,
   CompositeLoadedModelContext,
   CompositeModelLoadContext,
+  CompositeVideoSprite,
   LoadPixiCompositeModelOptions,
   LoadedPixiCompositeModel,
 } from "./runtime/loadPixiCompositeModel";

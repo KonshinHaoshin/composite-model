@@ -1,15 +1,19 @@
 export type MaybePromise<T> = T | Promise<T>;
 
 export type CompositeDiagnosticSeverity = "warning" | "error";
+export type CompositePartType = "live2d" | "image" | "gif" | "video";
 
 export interface CompositeDiagnostic {
   code:
     | "invalid-json"
     | "invalid-root"
     | "invalid-summary-field"
+    | "invalid-version"
     | "invalid-import"
     | "missing-path"
     | "invalid-path"
+    | "invalid-part-type"
+    | "invalid-part-flag"
     | "invalid-part-field"
     | "duplicate-summary"
     | "extra-fields"
@@ -23,6 +27,7 @@ export interface CompositeDiagnostic {
 
 export interface CompositePart {
   path: string;
+  type?: CompositePartType;
   id?: string;
   folder?: string;
   index?: number;
@@ -30,10 +35,15 @@ export interface CompositePart {
   y?: number;
   xscale?: number;
   yscale?: number;
+  loop?: boolean;
+  muted?: boolean;
+  autoplay?: boolean;
+  playsinline?: boolean;
   lineNumber: number;
 }
 
 export interface CompositeSummary {
+  version?: number;
   motions?: string[];
   expressions?: string[];
   import?: number;

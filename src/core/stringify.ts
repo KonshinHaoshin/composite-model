@@ -4,6 +4,7 @@ const serializePart = (part: CompositePart) => {
   const out: Record<string, unknown> = {
     path: part.path,
   };
+  if (part.type !== undefined) out.type = part.type;
   if (part.id !== undefined) out.id = part.id;
   if (part.folder !== undefined) out.folder = part.folder;
   if (part.index !== undefined) out.index = part.index;
@@ -11,16 +12,24 @@ const serializePart = (part: CompositePart) => {
   if (part.y !== undefined) out.y = part.y;
   if (part.xscale !== undefined) out.xscale = part.xscale;
   if (part.yscale !== undefined) out.yscale = part.yscale;
+  if (part.loop !== undefined) out.loop = part.loop;
+  if (part.muted !== undefined) out.muted = part.muted;
+  if (part.autoplay !== undefined) out.autoplay = part.autoplay;
+  if (part.playsinline !== undefined) out.playsinline = part.playsinline;
   return JSON.stringify(out);
 };
 
 const hasSummaryContent = (summary: CompositeSummary) =>
+  summary.version !== undefined ||
   (summary.motions?.length ?? 0) > 0 ||
   (summary.expressions?.length ?? 0) > 0 ||
   summary.import !== undefined;
 
 const serializeSummary = (summary: CompositeSummary) => {
   const out: Record<string, unknown> = {};
+  if (summary.version !== undefined) {
+    out.version = summary.version;
+  }
   if (summary.motions && summary.motions.length > 0) {
     out.motions = summary.motions;
   }

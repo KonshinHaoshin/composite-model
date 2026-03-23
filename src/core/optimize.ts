@@ -22,12 +22,19 @@ const dedupe = (values: string[] | undefined) => {
 
 const normalizePath = (value: string) => value.replace(/\\/g, "/");
 
+const normalizeVersion = (value: number | undefined) =>
+  typeof value === "number" && Number.isInteger(value) && value >= 1 ? value : undefined;
+
 const normalizeSummary = (summary: CompositeSummary): CompositeSummary => {
+  const version = normalizeVersion(summary.version);
   const motions = dedupe(summary.motions);
   const expressions = dedupe(summary.expressions);
   const importValue = typeof summary.import === "number" && Number.isFinite(summary.import) ? summary.import : undefined;
 
   const next: CompositeSummary = {};
+  if (version !== undefined) {
+    next.version = version;
+  }
   if (motions && motions.length > 0) {
     next.motions = motions;
   }
@@ -39,6 +46,16 @@ const normalizeSummary = (summary: CompositeSummary): CompositeSummary => {
   }
   return next;
 };
+
+const requiresVersionTwo = (parts: CompositePart[]) =>
+  parts.some(
+    (part) =>
+      part.type !== undefined ||
+      part.loop !== undefined ||
+      part.muted !== undefined ||
+      part.autoplay !== undefined ||
+      part.playsinline !== undefined,
+  );
 
 export function optimizeCompositeModel(
   manifest: CompositeModelManifest,
@@ -59,6 +76,9 @@ export function optimizeCompositeModel(
   });
 
   const summary = normalizeSummary(manifest.summary);
+  if (summary.version === undefined && requiresVersionTwo(parts)) {
+    summary.version = 2;
+  }
   const text = stringifyCompositeModel({ parts, summary });
   const lines = text
     .split(/\r?\n/)
