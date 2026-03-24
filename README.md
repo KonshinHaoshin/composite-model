@@ -9,6 +9,7 @@
 - 不直接依赖 Tauri / Node 文件系统
 - 运行时面向浏览器
 - 当前运行时适配层基于 `pixi-live2d-display-webgal` + `Pixi`
+- `Live2D` part 同时支持 Cubism2 `model.json` 与 Cubism3/4 `model3.json`
 
 这个包适合三类场景：
 
@@ -41,7 +42,7 @@
 社区里的 `.jsonl` 聚合模型通常长这样：
 
 - 前几行是多个子模型声明
-- 每个子模型指向一个 Cubism2 `model.json`
+- 每个子模型指向一个 `model.json` 或 `model3.json`
 - 最后一行是汇总信息，比如：
   - `motions`
   - `expressions`
@@ -144,6 +145,9 @@
 - `motions` / `expressions` 当前只支持数组，不支持对象型 summary
 - `import` 会被规范为数字；如果不是合法数字，会给出诊断
 - 当 part 使用了 `type` 或媒体控制字段时，`optimizeCompositeModel()` 会把 summary 规范到 `version: 2`
+- 当 summary 没有给出 `motions/expressions` 时，会自动兼容：
+  - Cubism2 `model.json` 的 `motions` / `expressions`
+  - Cubism3/4 `model3.json` 的 `FileReferences.Motions` / `FileReferences.Expressions`
 
 ---
 
@@ -176,7 +180,7 @@ pnpm add @pixi/gif
 - `pixi.js` 和 `pixi-live2d-display-webgal` 是运行时依赖
 - `@pixi/gif` 只在你使用 GIF part 时需要
 - Live2D SDK 不是 npm 依赖
-- 你需要自己在页面里提供 Cubism2 运行库
+- 你需要自己在页面里提供与模型版本匹配的 Live2D 运行库
 
 ---
 
@@ -370,7 +374,9 @@ app.stage.addChild(loaded.container);
    - `gif` -> `@pixi/gif`
    - `video` -> `HTMLVideoElement + PIXI.Texture.from(...)`
 6. 对所有 Live2D 子模型批量应用 summary 里的 `import`
-7. 读取首个 Live2D 子模型的 `model.json`，生成动作 / 表情列表
+7. 读取首个 Live2D 子模型的设置文件，生成动作 / 表情列表
+   - Cubism2: `model.json`
+   - Cubism3/4: `model3.json`
 8. 根据 `initialMotion` / `initialExpression` 对所有 Live2D 子模型进行初始化
 9. 返回统一的控制对象
 
@@ -433,16 +439,20 @@ loaded.destroy();
 
 ---
 
-## 7. Cubism2 和 Live2D SDK 说明
+## 7. Cubism2 / 3 / 4 和 Live2D SDK 说明
 
 这点非常重要。
 
 这个包虽然能加载 JSONL 聚合模型，但它本身并不提供 Live2D SDK。  
-你实际加载的仍然是 Cubism2 子模型，所以页面里必须存在 Cubism2 运行库。
+你实际加载的仍然是模型自身对应的 Cubism 运行时，所以页面里必须存在与模型版本匹配的运行库。
 
 ### 7.1 你需要自己提供的脚本
 
-通常至少需要：
+按模型版本区分：
+
+- Cubism2 模型需要：`live2d.min.js`
+- Cubism3 / Cubism4 模型需要：`live2dcubismcore.min.js`
+- 如果一个聚合模型里可能混用 Cubism2 和 Cubism3/4，就两个都加载
 
 ```html
 <script src="live2d.min.js"></script>
@@ -456,7 +466,8 @@ example 会在运行时动态加载：
 - `/lib/live2d.min.js`
 - `/lib/live2dcubismcore.min.js`
 
-也就是说，仓库不会内置 SDK 文件；你需要自己把文件放到 example 对应目录。
+也就是说，仓库不会内置 SDK 文件；你需要自己把文件放到 example 对应目录。  
+如果你只测试 Cubism3/4 模型，至少要放 `live2dcubismcore.min.js`；如果你还要测 Cubism2，则再补 `live2d.min.js`。
 
 ### 7.3 运行时还有一个关键点
 
@@ -493,6 +504,12 @@ example 是为了验证：
 examples/lib/live2d.min.js
 examples/lib/live2dcubismcore.min.js
 ```
+
+其中：
+
+- 只跑 Cubism2 时，至少需要 `live2d.min.js`
+- 只跑 Cubism3/4 时，至少需要 `live2dcubismcore.min.js`
+- 要让同一个 example 同时兼容两类模型，就把两个都放进去
 
 ### 8.3 模型资源放哪里
 

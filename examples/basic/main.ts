@@ -82,7 +82,7 @@ function loadScript(url: string) {
   });
 }
 
-async function ensureCubism2Sdk() {
+async function ensureLive2DSdks() {
   const maybeWindow = window as typeof window & {
     Live2D?: unknown;
     Live2DCubismCore?: unknown;
@@ -92,15 +92,33 @@ async function ensureCubism2Sdk() {
     return;
   }
 
-  await loadScript("/lib/live2d.min.js");
-  await loadScript("/lib/live2dcubismcore.min.js");
+  const loaders: Promise<unknown>[] = [];
+
+  if (!maybeWindow.Live2D) {
+    loaders.push(
+      loadScript("/lib/live2d.min.js").catch(() => undefined),
+    );
+  }
+  if (!maybeWindow.Live2DCubismCore) {
+    loaders.push(
+      loadScript("/lib/live2dcubismcore.min.js").catch(() => undefined),
+    );
+  }
+
+  await Promise.all(loaders);
+
+  if (!maybeWindow.Live2D && !maybeWindow.Live2DCubismCore) {
+    throw new Error(
+      "未找到 Live2D 运行时。Cubism2 需要 /lib/live2d.min.js，Cubism3/4 需要 /lib/live2dcubismcore.min.js。",
+    );
+  }
 }
 
 async function ensureRuntimeModule() {
   if (runtimeModule) {
     return runtimeModule;
   }
-  await ensureCubism2Sdk();
+  await ensureLive2DSdks();
   runtimeModule = await import("../../src/index");
   return runtimeModule;
 }

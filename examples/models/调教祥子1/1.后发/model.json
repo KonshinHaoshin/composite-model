@@ -1,0 +1,1052 @@
+{
+    "version": "Sample 1.0.0",
+    "layout": {
+        "center_x": 0,
+        "center_y": 0,
+        "width": 2
+    },
+    "hit_areas_custom": {
+        "body_x": [
+            -0.3,
+            0.2
+        ],
+        "body_y": [
+            0.3,
+            -1.9
+        ],
+        "head_x": [
+            -0.25,
+            1
+        ],
+        "head_y": [
+            0.25,
+            0.2
+        ]
+    },
+    "model": "data/model.moc",
+    "physics": "data/physics.json",
+    "textures": [
+        "data/textures/texture_00.png",
+        "data/textures/texture_01.png"
+    ],
+    "init_opacities": [
+        {
+            "id": "PARTS_01_CORE",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_FACE_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_CHEEK_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_EYE_R_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_EYE_L_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_BROW_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_TEAR_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_MOUTH_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_NOSE_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_EAR_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_HAIR_FRONT_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_HAIR_SIDE_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_HAIR_BACK_001",
+            "value": 1.0
+        },
+        {
+            "id": "PARTS_HEAR_ACC",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_ARM_R_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_ARM_L_001",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_BACK_RIBBON",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_SKIRT",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_BODY",
+            "value": 0.0
+        },
+        {
+            "id": "PARTS_01_SKETCH",
+            "value": 0.0
+        }
+    ],
+    "motions": {
+        "sakiko/angry01": [
+            {
+                "file": "../expnmtn/1.后发/angry01.mtn"
+            }
+        ],
+        "sakiko/angry02": [
+            {
+                "file": "../expnmtn/1.后发/angry02.mtn"
+            }
+        ],
+        "sakiko/angry03": [
+            {
+                "file": "../expnmtn/1.后发/angry03.mtn"
+            }
+        ],
+        "sakiko/angry04": [
+            {
+                "file": "../expnmtn/1.后发/angry04.mtn"
+            }
+        ],
+        "sakiko/angry05": [
+            {
+                "file": "../expnmtn/1.后发/angry05.mtn"
+            }
+        ],
+        "sakiko/angry06": [
+            {
+                "file": "../expnmtn/1.后发/angry06.mtn"
+            }
+        ],
+        "sakiko/angry07": [
+            {
+                "file": "../expnmtn/1.后发/angry07.mtn"
+            }
+        ],
+        "sakiko/bow": [
+            {
+                "file": "../expnmtn/1.后发/bow.mtn"
+            }
+        ],
+        "sakiko/bye01": [
+            {
+                "file": "../expnmtn/1.后发/bye01.mtn"
+            }
+        ],
+        "sakiko/bye02": [
+            {
+                "file": "../expnmtn/1.后发/bye02.mtn"
+            }
+        ],
+        "sakiko/cry01": [
+            {
+                "file": "../expnmtn/1.后发/cry01.mtn"
+            }
+        ],
+        "sakiko/cry02": [
+            {
+                "file": "../expnmtn/1.后发/cry02.mtn"
+            }
+        ],
+        "sakiko/cry03": [
+            {
+                "file": "../expnmtn/1.后发/cry03.mtn"
+            }
+        ],
+        "sakiko/cry04": [
+            {
+                "file": "../expnmtn/1.后发/cry04.mtn"
+            }
+        ],
+        "sakiko/cry05": [
+            {
+                "file": "../expnmtn/1.后发/cry05.mtn"
+            }
+        ],
+        "sakiko/cry06": [
+            {
+                "file": "../expnmtn/1.后发/cry06.mtn"
+            }
+        ],
+        "sakiko/idle01": [
+            {
+                "file": "../expnmtn/1.后发/idle01.mtn"
+            }
+        ],
+        "sakiko/kime01": [
+            {
+                "file": "../expnmtn/1.后发/kime01.mtn"
+            }
+        ],
+        "sakiko/maskoff": [
+            {
+                "file": "../expnmtn/1.后发/maskoff.mtn"
+            }
+        ],
+        "sakiko/maskon_angry01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry01.mtn"
+            }
+        ],
+        "sakiko/maskon_angry02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry02.mtn"
+            }
+        ],
+        "sakiko/maskon_angry03": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry03.mtn"
+            }
+        ],
+        "sakiko/maskon_angry04": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry04.mtn"
+            }
+        ],
+        "sakiko/maskon_angry05": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry05.mtn"
+            }
+        ],
+        "sakiko/maskon_angry06": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry06.mtn"
+            }
+        ],
+        "sakiko/maskon_angry07": [
+            {
+                "file": "../expnmtn/1.后发/maskon_angry07.mtn"
+            }
+        ],
+        "sakiko/maskon_bow": [
+            {
+                "file": "../expnmtn/1.后发/maskon_bow.mtn"
+            }
+        ],
+        "sakiko/maskon_bye01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_bye01.mtn"
+            }
+        ],
+        "sakiko/maskon_bye02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_bye02.mtn"
+            }
+        ],
+        "sakiko/maskon_cry01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry01.mtn"
+            }
+        ],
+        "sakiko/maskon_cry02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry02.mtn"
+            }
+        ],
+        "sakiko/maskon_cry03": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry03.mtn"
+            }
+        ],
+        "sakiko/maskon_cry04": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry04.mtn"
+            }
+        ],
+        "sakiko/maskon_cry05": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry05.mtn"
+            }
+        ],
+        "sakiko/maskon_cry06": [
+            {
+                "file": "../expnmtn/1.后发/maskon_cry06.mtn"
+            }
+        ],
+        "sakiko/maskon_idle01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_idle01.mtn"
+            }
+        ],
+        "sakiko/maskon_kime01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_kime01.mtn"
+            }
+        ],
+        "sakiko/maskon_nf01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf01.mtn"
+            }
+        ],
+        "sakiko/maskon_nf02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf02.mtn"
+            }
+        ],
+        "sakiko/maskon_nf03": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf03.mtn"
+            }
+        ],
+        "sakiko/maskon_nf04": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf04.mtn"
+            }
+        ],
+        "sakiko/maskon_nf05": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf05.mtn"
+            }
+        ],
+        "sakiko/maskon_nf_left01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf_left01.mtn"
+            }
+        ],
+        "sakiko/maskon_nf_right01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nf_right01.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf01.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf02.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf03": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf03.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf04": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf04.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf05": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf05.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf_left01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf_left01.mtn"
+            }
+        ],
+        "sakiko/maskon_nnf_right01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nnf_right01.mtn"
+            }
+        ],
+        "sakiko/maskon_nod01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_nod01.mtn"
+            }
+        ],
+        "sakiko/maskon_odoodo01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_odoodo01.mtn"
+            }
+        ],
+        "sakiko/maskon_sad01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_sad01.mtn"
+            }
+        ],
+        "sakiko/maskon_sad02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_sad02.mtn"
+            }
+        ],
+        "sakiko/maskon_serious01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_serious01.mtn"
+            }
+        ],
+        "sakiko/maskon_serious02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_serious02.mtn"
+            }
+        ],
+        "sakiko/maskon_shame01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_shame01.mtn"
+            }
+        ],
+        "sakiko/maskon_shame02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_shame02.mtn"
+            }
+        ],
+        "sakiko/maskon_sigh01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_sigh01.mtn"
+            }
+        ],
+        "sakiko/maskon_sigh02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_sigh02.mtn"
+            }
+        ],
+        "sakiko/maskon_smile01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile01.mtn"
+            }
+        ],
+        "sakiko/maskon_smile02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile02.mtn"
+            }
+        ],
+        "sakiko/maskon_smile03": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile03.mtn"
+            }
+        ],
+        "sakiko/maskon_smile04": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile04.mtn"
+            }
+        ],
+        "sakiko/maskon_smile05": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile05.mtn"
+            }
+        ],
+        "sakiko/maskon_smile06": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile06.mtn"
+            }
+        ],
+        "sakiko/maskon_smile07": [
+            {
+                "file": "../expnmtn/1.后发/maskon_smile07.mtn"
+            }
+        ],
+        "sakiko/maskon_surprised01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_surprised01.mtn"
+            }
+        ],
+        "sakiko/maskon_surprised02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_surprised02.mtn"
+            }
+        ],
+        "sakiko/maskon_thinking01": [
+            {
+                "file": "../expnmtn/1.后发/maskon_thinking01.mtn"
+            }
+        ],
+        "sakiko/maskon_thinking02": [
+            {
+                "file": "../expnmtn/1.后发/maskon_thinking02.mtn"
+            }
+        ],
+        "sakiko/nf01": [
+            {
+                "file": "../expnmtn/1.后发/nf01.mtn"
+            }
+        ],
+        "sakiko/nf02": [
+            {
+                "file": "../expnmtn/1.后发/nf02.mtn"
+            }
+        ],
+        "sakiko/nf03": [
+            {
+                "file": "../expnmtn/1.后发/nf03.mtn"
+            }
+        ],
+        "sakiko/nf04": [
+            {
+                "file": "../expnmtn/1.后发/nf04.mtn"
+            }
+        ],
+        "sakiko/nf05": [
+            {
+                "file": "../expnmtn/1.后发/nf05.mtn"
+            }
+        ],
+        "sakiko/nf_left01": [
+            {
+                "file": "../expnmtn/1.后发/nf_left01.mtn"
+            }
+        ],
+        "sakiko/nf_right01": [
+            {
+                "file": "../expnmtn/1.后发/nf_right01.mtn"
+            }
+        ],
+        "sakiko/nnf01": [
+            {
+                "file": "../expnmtn/1.后发/nnf01.mtn"
+            }
+        ],
+        "sakiko/nnf02": [
+            {
+                "file": "../expnmtn/1.后发/nnf02.mtn"
+            }
+        ],
+        "sakiko/nnf03": [
+            {
+                "file": "../expnmtn/1.后发/nnf03.mtn"
+            }
+        ],
+        "sakiko/nnf04": [
+            {
+                "file": "../expnmtn/1.后发/nnf04.mtn"
+            }
+        ],
+        "sakiko/nnf05": [
+            {
+                "file": "../expnmtn/1.后发/nnf05.mtn"
+            }
+        ],
+        "sakiko/nnf_left01": [
+            {
+                "file": "../expnmtn/1.后发/nnf_left01.mtn"
+            }
+        ],
+        "sakiko/nnf_right01": [
+            {
+                "file": "../expnmtn/1.后发/nnf_right01.mtn"
+            }
+        ],
+        "sakiko/nod01": [
+            {
+                "file": "../expnmtn/1.后发/nod01.mtn"
+            }
+        ],
+        "sakiko/odoodo01": [
+            {
+                "file": "../expnmtn/1.后发/odoodo01.mtn"
+            }
+        ],
+        "sakiko/sad01": [
+            {
+                "file": "../expnmtn/1.后发/sad01.mtn"
+            }
+        ],
+        "sakiko/sad02": [
+            {
+                "file": "../expnmtn/1.后发/sad02.mtn"
+            }
+        ],
+        "sakiko/serious01": [
+            {
+                "file": "../expnmtn/1.后发/serious01.mtn"
+            }
+        ],
+        "sakiko/serious02": [
+            {
+                "file": "../expnmtn/1.后发/serious02.mtn"
+            }
+        ],
+        "sakiko/shame01": [
+            {
+                "file": "../expnmtn/1.后发/shame01.mtn"
+            }
+        ],
+        "sakiko/shame02": [
+            {
+                "file": "../expnmtn/1.后发/shame02.mtn"
+            }
+        ],
+        "sakiko/sigh01": [
+            {
+                "file": "../expnmtn/1.后发/sigh01.mtn"
+            }
+        ],
+        "sakiko/sigh02": [
+            {
+                "file": "../expnmtn/1.后发/sigh02.mtn"
+            }
+        ],
+        "sakiko/smile01": [
+            {
+                "file": "../expnmtn/1.后发/smile01.mtn"
+            }
+        ],
+        "sakiko/smile02": [
+            {
+                "file": "../expnmtn/1.后发/smile02.mtn"
+            }
+        ],
+        "sakiko/smile03": [
+            {
+                "file": "../expnmtn/1.后发/smile03.mtn"
+            }
+        ],
+        "sakiko/smile04": [
+            {
+                "file": "../expnmtn/1.后发/smile04.mtn"
+            }
+        ],
+        "sakiko/smile05": [
+            {
+                "file": "../expnmtn/1.后发/smile05.mtn"
+            }
+        ],
+        "sakiko/smile06": [
+            {
+                "file": "../expnmtn/1.后发/smile06.mtn"
+            }
+        ],
+        "sakiko/smile07": [
+            {
+                "file": "../expnmtn/1.后发/smile07.mtn"
+            }
+        ],
+        "sakiko/surprised01": [
+            {
+                "file": "../expnmtn/1.后发/surprised01.mtn"
+            }
+        ],
+        "sakiko/surprised02": [
+            {
+                "file": "../expnmtn/1.后发/surprised02.mtn"
+            }
+        ],
+        "sakiko/thinking01": [
+            {
+                "file": "../expnmtn/1.后发/thinking01.mtn"
+            }
+        ],
+        "sakiko/thinking02": [
+            {
+                "file": "../expnmtn/1.后发/thinking02.mtn"
+            }
+        ],
+        "rinko/angry01": [
+            {
+                "file": "../expnmtn/2.衣服/angry01.mtn"
+            }
+        ],
+        "rinko/bye01": [
+            {
+                "file": "../expnmtn/2.衣服/bye01.mtn"
+            }
+        ],
+        "rinko/chuni02": [
+            {
+                "file": "../expnmtn/2.衣服/chuni02.mtn"
+            }
+        ],
+        "rinko/chuni03": [
+            {
+                "file": "../expnmtn/2.衣服/chuni03.mtn"
+            }
+        ],
+        "rinko/cry01": [
+            {
+                "file": "../expnmtn/2.衣服/cry01.mtn"
+            }
+        ],
+        "rinko/gacha01": [
+            {
+                "file": "../expnmtn/2.衣服/gacha01.mtn"
+            }
+        ],
+        "rinko/gattsu01": [
+            {
+                "file": "../expnmtn/2.衣服/gattsu01.mtn"
+            }
+        ],
+        "rinko/idle01": [
+            {
+                "file": "../expnmtn/2.衣服/idle01.mtn"
+            }
+        ],
+        "rinko/idle02": [
+            {
+                "file": "../expnmtn/2.衣服/idle02.mtn"
+            }
+        ],
+        "rinko/kime01": [
+            {
+                "file": "../expnmtn/2.衣服/kime01.mtn"
+            }
+        ],
+        "rinko/nf01": [
+            {
+                "file": "../expnmtn/2.衣服/nf01.mtn"
+            }
+        ],
+        "rinko/nf01_openeye": [
+            {
+                "file": "../expnmtn/2.衣服/nf01_openeye.mtn"
+            }
+        ],
+        "rinko/nf02": [
+            {
+                "file": "../expnmtn/2.衣服/nf02.mtn"
+            }
+        ],
+        "rinko/nf03": [
+            {
+                "file": "../expnmtn/2.衣服/nf03.mtn"
+            }
+        ],
+        "rinko/nf04": [
+            {
+                "file": "../expnmtn/2.衣服/nf04.mtn"
+            }
+        ],
+        "rinko/nf05": [
+            {
+                "file": "../expnmtn/2.衣服/nf05.mtn"
+            }
+        ],
+        "rinko/nf_left01": [
+            {
+                "file": "../expnmtn/2.衣服/nf_left01.mtn"
+            }
+        ],
+        "rinko/nf_right01": [
+            {
+                "file": "../expnmtn/2.衣服/nf_right01.mtn"
+            }
+        ],
+        "rinko/nnf01": [
+            {
+                "file": "../expnmtn/2.衣服/nnf01.mtn"
+            }
+        ],
+        "rinko/nnf01_openeye": [
+            {
+                "file": "../expnmtn/2.衣服/nnf01_openeye.mtn"
+            }
+        ],
+        "rinko/nnf02": [
+            {
+                "file": "../expnmtn/2.衣服/nnf02.mtn"
+            }
+        ],
+        "rinko/nnf03": [
+            {
+                "file": "../expnmtn/2.衣服/nnf03.mtn"
+            }
+        ],
+        "rinko/nnf04": [
+            {
+                "file": "../expnmtn/2.衣服/nnf04.mtn"
+            }
+        ],
+        "rinko/nnf05": [
+            {
+                "file": "../expnmtn/2.衣服/nnf05.mtn"
+            }
+        ],
+        "rinko/nnf_left01": [
+            {
+                "file": "../expnmtn/2.衣服/nnf_left01.mtn"
+            }
+        ],
+        "rinko/nnf_right01": [
+            {
+                "file": "../expnmtn/2.衣服/nnf_right01.mtn"
+            }
+        ],
+        "rinko/odoodo01": [
+            {
+                "file": "../expnmtn/2.衣服/odoodo01.mtn"
+            }
+        ],
+        "rinko/odoodo02": [
+            {
+                "file": "../expnmtn/2.衣服/odoodo02.mtn"
+            }
+        ],
+        "rinko/odoodo03": [
+            {
+                "file": "../expnmtn/2.衣服/odoodo03.mtn"
+            }
+        ],
+        "rinko/sad01": [
+            {
+                "file": "../expnmtn/2.衣服/sad01.mtn"
+            }
+        ],
+        "rinko/serious01": [
+            {
+                "file": "../expnmtn/2.衣服/serious01.mtn"
+            }
+        ],
+        "rinko/shame01": [
+            {
+                "file": "../expnmtn/2.衣服/shame01.mtn"
+            }
+        ],
+        "rinko/shame02": [
+            {
+                "file": "../expnmtn/2.衣服/shame02.mtn"
+            }
+        ],
+        "rinko/shame03": [
+            {
+                "file": "../expnmtn/2.衣服/shame03.mtn"
+            }
+        ],
+        "rinko/smile01": [
+            {
+                "file": "../expnmtn/2.衣服/smile01.mtn"
+            }
+        ],
+        "rinko/smile02": [
+            {
+                "file": "../expnmtn/2.衣服/smile02.mtn"
+            }
+        ],
+        "rinko/smile03": [
+            {
+                "file": "../expnmtn/2.衣服/smile03.mtn"
+            }
+        ],
+        "rinko/smile04": [
+            {
+                "file": "../expnmtn/2.衣服/smile04.mtn"
+            }
+        ],
+        "rinko/smile05": [
+            {
+                "file": "../expnmtn/2.衣服/smile05.mtn"
+            }
+        ],
+        "rinko/smile06": [
+            {
+                "file": "../expnmtn/2.衣服/smile06.mtn"
+            }
+        ],
+        "rinko/surprised01": [
+            {
+                "file": "../expnmtn/2.衣服/surprised01.mtn"
+            }
+        ],
+        "rinko/talking01": [
+            {
+                "file": "../expnmtn/2.衣服/talking01.mtn"
+            }
+        ],
+        "rinko/thinking01": [
+            {
+                "file": "../expnmtn/2.衣服/thinking01.mtn"
+            }
+        ]
+    },
+    "expressions": [
+        {
+            "name": "sakiko/angry01",
+            "file": "../expnmtn/1.后发/angry01.exp.json"
+        },
+        {
+            "name": "sakiko/angry02",
+            "file": "../expnmtn/1.后发/angry02.exp.json"
+        },
+        {
+            "name": "sakiko/angry07",
+            "file": "../expnmtn/1.后发/angry07.exp.json"
+        },
+        {
+            "name": "sakiko/cry01",
+            "file": "../expnmtn/1.后发/cry01.exp.json"
+        },
+        {
+            "name": "sakiko/cry02",
+            "file": "../expnmtn/1.后发/cry02.exp.json"
+        },
+        {
+            "name": "sakiko/cry03",
+            "file": "../expnmtn/1.后发/cry03.exp.json"
+        },
+        {
+            "name": "sakiko/cry04",
+            "file": "../expnmtn/1.后发/cry04.exp.json"
+        },
+        {
+            "name": "sakiko/default",
+            "file": "../expnmtn/1.后发/default.exp.json"
+        },
+        {
+            "name": "sakiko/idle01",
+            "file": "../expnmtn/1.后发/idle01.exp.json"
+        },
+        {
+            "name": "sakiko/kime01",
+            "file": "../expnmtn/1.后发/kime01.exp.json"
+        },
+        {
+            "name": "sakiko/odoodo01",
+            "file": "../expnmtn/1.后发/odoodo01.exp.json"
+        },
+        {
+            "name": "sakiko/sad01",
+            "file": "../expnmtn/1.后发/sad01.exp.json"
+        },
+        {
+            "name": "sakiko/sad02",
+            "file": "../expnmtn/1.后发/sad02.exp.json"
+        },
+        {
+            "name": "sakiko/serious01",
+            "file": "../expnmtn/1.后发/serious01.exp.json"
+        },
+        {
+            "name": "sakiko/serious02",
+            "file": "../expnmtn/1.后发/serious02.exp.json"
+        },
+        {
+            "name": "sakiko/shame01",
+            "file": "../expnmtn/1.后发/shame01.exp.json"
+        },
+        {
+            "name": "sakiko/shame02",
+            "file": "../expnmtn/1.后发/shame02.exp.json"
+        },
+        {
+            "name": "sakiko/sigh01",
+            "file": "../expnmtn/1.后发/sigh01.exp.json"
+        },
+        {
+            "name": "sakiko/sigh02",
+            "file": "../expnmtn/1.后发/sigh02.exp.json"
+        },
+        {
+            "name": "sakiko/smile01",
+            "file": "../expnmtn/1.后发/smile01.exp.json"
+        },
+        {
+            "name": "sakiko/smile02",
+            "file": "../expnmtn/1.后发/smile02.exp.json"
+        },
+        {
+            "name": "sakiko/smile03",
+            "file": "../expnmtn/1.后发/smile03.exp.json"
+        },
+        {
+            "name": "sakiko/smile04",
+            "file": "../expnmtn/1.后发/smile04.exp.json"
+        },
+        {
+            "name": "sakiko/smile05",
+            "file": "../expnmtn/1.后发/smile05.exp.json"
+        },
+        {
+            "name": "sakiko/smile06",
+            "file": "../expnmtn/1.后发/smile06.exp.json"
+        },
+        {
+            "name": "sakiko/surprised01",
+            "file": "../expnmtn/1.后发/surprised01.exp.json"
+        },
+        {
+            "name": "sakiko/surprised02",
+            "file": "../expnmtn/1.后发/surprised02.exp.json"
+        },
+        {
+            "name": "sakiko/thinking01",
+            "file": "../expnmtn/1.后发/thinking01.exp.json"
+        },
+        {
+            "name": "sakiko/thinking02",
+            "file": "../expnmtn/1.后发/thinking02.exp.json"
+        },
+        {
+            "name": "rinko/angry01",
+            "file": "../expnmtn/2.衣服/angry01.exp.json"
+        },
+        {
+            "name": "rinko/cry01",
+            "file": "../expnmtn/2.衣服/cry01.exp.json"
+        },
+        {
+            "name": "rinko/default",
+            "file": "../expnmtn/2.衣服/default.exp.json"
+        },
+        {
+            "name": "rinko/idle01",
+            "file": "../expnmtn/2.衣服/idle01.exp.json"
+        },
+        {
+            "name": "rinko/kime01",
+            "file": "../expnmtn/2.衣服/kime01.exp.json"
+        },
+        {
+            "name": "rinko/rinko_default",
+            "file": "../expnmtn/2.衣服/rinko_default.exp.json"
+        },
+        {
+            "name": "rinko/rinko_sad",
+            "file": "../expnmtn/2.衣服/rinko_sad.exp.json"
+        },
+        {
+            "name": "rinko/rinko_shame",
+            "file": "../expnmtn/2.衣服/rinko_shame.exp.json"
+        },
+        {
+            "name": "rinko/rinko_smile01",
+            "file": "../expnmtn/2.衣服/rinko_smile01.exp.json"
+        },
+        {
+            "name": "rinko/rinko_surprised",
+            "file": "../expnmtn/2.衣服/rinko_surprised.exp.json"
+        },
+        {
+            "name": "rinko/rinko_worry",
+            "file": "../expnmtn/2.衣服/rinko_worry.exp.json"
+        },
+        {
+            "name": "rinko/sad01",
+            "file": "../expnmtn/2.衣服/sad01.exp.json"
+        },
+        {
+            "name": "rinko/serious01",
+            "file": "../expnmtn/2.衣服/serious01.exp.json"
+        },
+        {
+            "name": "rinko/smile01",
+            "file": "../expnmtn/2.衣服/smile01.exp.json"
+        },
+        {
+            "name": "rinko/smile02",
+            "file": "../expnmtn/2.衣服/smile02.exp.json"
+        },
+        {
+            "name": "rinko/smile03",
+            "file": "../expnmtn/2.衣服/smile03.exp.json"
+        },
+        {
+            "name": "rinko/surprised01",
+            "file": "../expnmtn/2.衣服/surprised01.exp.json"
+        }
+    ]
+}

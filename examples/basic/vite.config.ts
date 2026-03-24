@@ -6,13 +6,16 @@ import { defineConfig } from "vite";
 const examplesRoot = path.resolve(__dirname, "..");
 const libDir = path.resolve(examplesRoot, "lib");
 const modelsDir = path.resolve(examplesRoot, "models");
+const defaultHost = process.env.EXAMPLE_HOST || process.env.HOST || "127.0.0.1";
+const defaultPort = Number(process.env.EXAMPLE_PORT || process.env.PORT || "4173");
 
 export default defineConfig({
   root: __dirname,
   publicDir: false,
   server: {
     open: true,
-    port: 4173,
+    host: defaultHost,
+    port: Number.isFinite(defaultPort) ? defaultPort : 4173,
     fs: {
       allow: [path.resolve(__dirname, "../..")],
     },

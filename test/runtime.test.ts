@@ -293,4 +293,58 @@ describe("loadPixiCompositeModel", () => {
     expect(result.models).toHaveLength(0);
     expect(videoElement?.pause).toHaveBeenCalledTimes(1);
   });
+
+  it("applies PARAM_IMPORT through Cubism4 coreModel API when setParameterValueById is available", async () => {
+    const setParameterValueById = vi.fn();
+
+    fromMock.mockImplementation(async (url: string) => ({
+      url,
+      visible: false,
+      motion: vi.fn(),
+      expression: vi.fn(),
+      internalModel: {
+        coreModel: {
+          setParameterValueById,
+        },
+      },
+      destroy: vi.fn(),
+    }));
+
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({
+        ok: true,
+        status: 200,
+        text: async () => "",
+        json: async () => ({
+          FileReferences: {
+            Motions: {
+              Idle: [{ File: "motions/idle.motion3.json" }],
+            },
+            Expressions: [{ Name: "happy", File: "expressions/happy.exp3.json" }],
+          },
+        }),
+        arrayBuffer: async () => new ArrayBuffer(8),
+      })),
+    );
+
+    const result = await loadPixiCompositeModel({
+      jsonlText: [
+        '{"path":"./haru/model3.json","id":"haru"}',
+        '{"import":7}',
+      ].join("\n"),
+      source: "https://example.com/composite/model.jsonl",
+      createContainer: () => new MockContainer() as never,
+      resolveAssetUrl: async (part) => `https://example.com/composite/${part.path.replace(/^\.\//, "")}`,
+    });
+
+    expect(result.selectors).toEqual({
+      motions: ["Idle"],
+      expressions: ["happy"],
+    });
+    expect(setParameterValueById).toHaveBeenCalledWith("PARAM_IMPORT", 7);
+
+    result.applyImport(11);
+    expect(setParameterValueById).toHaveBeenLastCalledWith("PARAM_IMPORT", 11);
+  });
 });

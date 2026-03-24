@@ -162,6 +162,29 @@ describe("extractCompositeSelectors", () => {
       expressions: ["smile", "angry.exp.json"],
     });
   });
+
+  it("extracts motions and expressions from Cubism3/4 model3.json when summary is absent", () => {
+    const fallback = extractCompositeSelectors(
+      { summary: {} },
+      {
+        FileReferences: {
+          Motions: {
+            Idle: [{ File: "motions/idle.motion3.json" }],
+            TapBody: [{ File: "motions/tap.motion3.json" }],
+          },
+          Expressions: [
+            { Name: "smile", File: "expressions/smile.exp3.json" },
+            { File: "expressions/angry.exp3.json" },
+          ],
+        },
+      },
+    );
+
+    expect(fallback).toEqual({
+      motions: ["Idle", "TapBody"],
+      expressions: ["smile", "expressions/angry.exp3.json"],
+    });
+  });
 });
 
 describe("resolveCompositePath", () => {

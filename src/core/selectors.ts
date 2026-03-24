@@ -1,6 +1,7 @@
 import type { CompositeModelManifest, ExtractCompositeSelectorsResult } from "./types";
 
 type JsonLike = string | Record<string, unknown>;
+type MotionExpressionRoot = Record<string, unknown>;
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -31,7 +32,7 @@ const extractNamesFromArray = (value: unknown): string[] => {
     if (!isRecord(item)) {
       continue;
     }
-    const nameLike = [item.name, item.file, item.id];
+    const nameLike = [item.name, item.Name, item.file, item.File, item.id, item.Id];
     for (const candidate of nameLike) {
       if (typeof candidate === "string" && candidate.trim()) {
         out.push(candidate.trim());
@@ -62,6 +63,16 @@ const extractExpressionNames = (expressions: unknown): string[] => {
   return [];
 };
 
+const extractCubism4MotionNames = (parsed: MotionExpressionRoot): string[] => {
+  const fileReferences = isRecord(parsed.FileReferences) ? parsed.FileReferences : undefined;
+  return extractMotionNames(fileReferences?.Motions);
+};
+
+const extractCubism4ExpressionNames = (parsed: MotionExpressionRoot): string[] => {
+  const fileReferences = isRecord(parsed.FileReferences) ? parsed.FileReferences : undefined;
+  return extractExpressionNames(fileReferences?.Expressions);
+};
+
 export function extractCompositeSelectors(
   manifest: Pick<CompositeModelManifest, "summary">,
   firstModelJson: JsonLike,
@@ -70,11 +81,17 @@ export function extractCompositeSelectors(
   const motions =
     manifest.summary.motions && manifest.summary.motions.length > 0
       ? dedupe(manifest.summary.motions)
-      : dedupe(extractMotionNames(parsed.motions));
+      : dedupe([
+          ...extractMotionNames(parsed.motions),
+          ...extractCubism4MotionNames(parsed),
+        ]);
   const expressions =
     manifest.summary.expressions && manifest.summary.expressions.length > 0
       ? dedupe(manifest.summary.expressions)
-      : dedupe(extractExpressionNames(parsed.expressions));
+      : dedupe([
+          ...extractExpressionNames(parsed.expressions),
+          ...extractCubism4ExpressionNames(parsed),
+        ]);
 
   return { motions, expressions };
 }

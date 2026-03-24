@@ -17,6 +17,7 @@ type PixiModule = typeof import("pixi.js");
 
 type Live2DCoreModel = {
   setParamFloat?: (id: string, value: number) => unknown;
+  setParameterValueById?: (id: string, value: number, weight?: number) => unknown;
 };
 
 type Live2DInternalModel = {
@@ -199,7 +200,17 @@ const setImportValue = (model: CompositeLive2DModel, value: number | undefined) 
   if (value === undefined) {
     return;
   }
-  model.internalModel?.coreModel?.setParamFloat?.("PARAM_IMPORT", value);
+  const coreModel = model.internalModel?.coreModel;
+  if (!coreModel) {
+    return;
+  }
+
+  if (typeof coreModel.setParameterValueById === "function") {
+    coreModel.setParameterValueById("PARAM_IMPORT", value);
+    return;
+  }
+
+  coreModel.setParamFloat?.("PARAM_IMPORT", value);
 };
 
 const inferPartType = (part: CompositePart): CompositePartType => {
